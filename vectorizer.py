@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer, util
 
 multi_lang_model="distiluse-base-multilingual-cased-v1"
 high_score_model = "multi-qa-distilbert-cos-v1"
-model = SentenceTransformer(multi_lang_model)
+model = SentenceTransformer(high_score_model)
 
 query=list(str(input()))
 folder_path = "test_files/"  # Replace with the actual folder path
