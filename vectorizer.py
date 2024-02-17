@@ -1,5 +1,5 @@
 import os
-
+from file_converter import extract_unique_tokens
 from sentence_transformers import SentenceTransformer, util
 
 multi_lang_model="distiluse-base-multilingual-cased-v1"
@@ -7,17 +7,18 @@ high_score_model = "multi-qa-distilbert-cos-v1"
 model = SentenceTransformer(high_score_model)
 
 query=list(str(input()))
-folder_path = "test_files/"  # Replace with the actual folder path
-
+file_path = "test_files/ashy_turing_4268.csv"  # Replace with the actual folder path
+'''
 file_names = os.listdir(folder_path)
 file_names_array = []
 
 for file_name in file_names:
     file_names_array.append(file_name)
+'''
 
 
 #Our sentences we like to encode
-sentences=file_names_array
+sentences=extract_unique_tokens(file_path)
 
 #Sentences are encoded by calling model.encode()
 

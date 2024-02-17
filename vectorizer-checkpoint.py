@@ -7,7 +7,7 @@ high_score_model = "multi-qa-distilbert-cos-v1"
 model = SentenceTransformer(multi_lang_model)
 
 query=list(str(input()))
-folder_path = "test_files/"  # Replace with the actual folder path
+folder_path = "test_files/ashy_turing_4268.res"  # Replace with the actual folder path
 
 file_names = os.listdir(folder_path)
 file_names_array = []
