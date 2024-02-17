@@ -1,7 +1,7 @@
 import random
 import re
 import os
-from math import log, ceil
+from math import log, ceil, sqrt
 
 
 def split_list(lst, n):
@@ -11,7 +11,7 @@ def split_list(lst, n):
     result = []
     # Разделяем список на n равных частей
     for i in range(0, len(lst), size):
-        result.append(','.join(map(str, lst[i:i+size])))
+        result.append(','.join(map(str, lst[i:i + size])))
     return result
 
 
@@ -20,8 +20,9 @@ def calculate_percentage(file_size):
     # Например, чем меньше размер файла, тем больше процент
     # Можно выбрать любую функцию в зависимости от требований
     # Здесь используем обратную пропорциональность
-    print("Объем:" , 1-(log(file_size)/file_size**2))     #(1 - (1 / file_size))
-    return (1-(log(file_size)/file_size**2))
+    print("Объем:", 1 - (log(file_size) / file_size ** 2))  # (1 - (1 / file_size))
+    return 1 - (log(file_size) / file_size ** 2)
+
 
 def extract_unique_tokens(file_path):
     # Читаем содержимое файла
@@ -43,12 +44,13 @@ def extract_unique_tokens(file_path):
     # Выбираем случайные слова из множества уникальных слов
     selected_words = random.sample(unique_tokens, int(len(unique_tokens) * percentage))
 
-    res = split_list(selected_words, ceil(log(len(selected_words)))+1) # нормальные значения давало при len=29 split по 5
+    res = split_list(selected_words,
+                     ceil(sqrt(len(selected_words))) + 1)  # нормальные значения давало при len=29 split по 5
     return res
-'''
+
+
 # Пример использования
 file_path = 'test_files/ashy_turing_4268.res'  # Путь к вашему текстовому файлу
 
 extracted_text = extract_unique_tokens(file_path)
 print(extracted_text)
-'''

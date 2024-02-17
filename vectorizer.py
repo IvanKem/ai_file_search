@@ -7,7 +7,7 @@ high_score_model = "multi-qa-distilbert-cos-v1"
 model = SentenceTransformer(high_score_model)
 
 query=list(str(input()))
-file_path = "test_files/ashy_turing_4268.csv"  # Replace with the actual folder path
+file_path = "test_files/ashy_turing_4268.res"  # Replace with the actual folder path
 '''
 file_names = os.listdir(folder_path)
 file_names_array = []
