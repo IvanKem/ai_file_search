@@ -1,5 +1,5 @@
 /Форма отчета.odt
 test_files/*
-!data/*
+!data/
 .idea
 __pycache__
