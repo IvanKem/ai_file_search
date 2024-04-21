@@ -1,42 +1,20 @@
-import os
-from file_converter import extract_unique_tokens
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer
 
-multi_lang_model="distiluse-base-multilingual-cased-v1"
-high_score_model = "multi-qa-distilbert-cos-v1"
-model = SentenceTransformer(high_score_model)
+sentences = [
+    "A man is eating food.",
+    "A man is eating a piece of bread.",
+    "The girl is carrying a baby.",
+    "A man is riding a horse.",
+    "A woman is playing violin.",
+    "Two men pushed carts through the woods.",
+    "A man is riding a white horse on an enclosed ground.",
+    "A monkey is playing drums.",
+    "A cheetah is running behind its prey.",
+]
+def generate_embeddings(texts):
+    model = SentenceTransformer('multilingual-e5-base')
+    embeddings = model.encode(texts, normalize_embeddings=True ,device='cpu',)
+    return embeddings
 
-query=list(str(input()))
-file_path = "test_files/ashy_turing_4268.res"  # Replace with the actual folder path
-'''
-file_names = os.listdir(folder_path)
-file_names_array = []
-
-for file_name in file_names:
-    file_names_array.append(file_name)
-'''
-
-
-#Our sentences we like to encode
-sentences=extract_unique_tokens(file_path)
-
-#Sentences are encoded by calling model.encode()
-
-def vectorize(sentences:list):
-    return model.encode(sentences)
-
-sentences_embeddings = vectorize(sentences)
-query_embedding = vectorize(query)
-
-#Print the embeddings
-#for sentence, embedding in zip(sentences, embeddings):
-    #print("Sentence:", sentence)
-    #print("Embedding:", embedding)
-    #print("")
-
-
-hits = util.semantic_search(query_embedding, sentences_embeddings, top_k=5)
-hits = hits[0]      #Get the hits for the first query
-for hit in hits:
-    print(sentences[hit['corpus_id']], "(Score: {:.4f})".format(hit['score']))
-
+# Print the embeddings
+#print(len(generate_embeddings(sentences)))

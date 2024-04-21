@@ -1,28 +1,28 @@
-import os
-from sentence_transformers import CrossEncoder
-folder_path = "test_files/"  # Replace with the actual folder path
+import lancedb
+from lancedb.pydantic import LanceModel, Vector
 
-Query= str(input())
+# Assume `generate_embeddings` is your function to generate embeddings
+def generate_embeddings(text):
+    # Your model's embedding generation logic
+    pass
 
-file_names = os.listdir(folder_path)
-file_names_array = []
+class MyDataModel(LanceModel):
+    text: str
+    vector: Vector(128)  # Assuming your embeddings are 128-dimensional
 
-for file_name in file_names:
-    file_names_array.append(file_name)
+# Connect to LanceDB
+db = lancedb.connect("/path/to/your/database")
 
+# Create a table
+table = db.create_table("my_data", schema=MyDataModel)
 
-def get_pairs(arr,query:str):
+# Add data
+data = ["Sample text 1", "Sample text 2"]
+embeddings = [generate_embeddings(text) for text in data]
+table.add([{"text": text, "vector": embedding} for text, embedding in zip(data, embeddings)])
 
-    pairs = []
-    for i in range(len(arr)):
-        pairs.append((query, arr[i]))
-    return pairs
+# Query the table
+results = table.search("query text").limit(1).to_pydantic(MyDataModel)
+for result in results:
+    print(result.text)
 
-
-pairs=get_pairs(file_names_array, Query)
-
-
-model = CrossEncoder('cross-encoder/stsb-TinyBERT-L-4', max_length=512)
-scores = model.predict(pairs)
-for i in range(len(scores)):
-    print(pairs[i]," :",scores[i])
